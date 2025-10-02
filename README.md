@@ -15,7 +15,7 @@ Explore how enemy pathfinding works
 
 ## Todo
 - [ ] Setup
- - [ ] Setup window
+    - [ ] Setup window
  - [ ] Add join/create lobby button
  - [ ] Add lobby screen and display all players
  - [ ] Make create lobby work
