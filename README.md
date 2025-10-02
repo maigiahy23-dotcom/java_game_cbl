@@ -1,42 +1,45 @@
 ## Game idea
 A tilebased game, where enemies use pathfinding to get to the player, the player can move around in a maze like grid of tiles. Each game has a randomly generated grid. Player has a weapon to shoot, he can only walk in the grid and shoot in 4 directions(The direction player is moving).
 
+## Advanced topic choices
+### Networking (current choice)
+Create 2 players that can join the same grid world and can see each other
+### Build tools (current choice)
+Learn more about build tools, different types, how they work and other things.
+### Git managment
+How git works, explain most important things to make it work
+### Enemy agents
+Explore how enemy agents work
+### Enemy pathfinding
+Explore how enemy pathfinding works
 
 ## Todo
-- [ ] Setup window
-- [ ] Draw a grid
-- [ ] Make grid resize when window resizes
-- [ ] Add obstacles
-- [ ] Add player with movement
-- [ ] Add multiplayer
-- [ ] Add enemy
-- [ ] Make enemy killable
-- [ ] Make player killable
-- [ ] Enemy pathfinding
-- [ ] Maze generation
-- [ ] Camera movement
-- [ ] Score counter
-- [ ] Main menu
-- [ ] Pause menu
-- [ ] End screen
+- [ ] Setup
+ - [ ] Setup window
+ - [ ] Add join/create lobby button
+ - [ ] Add lobby screen and display all players
+ - [ ] Make create lobby work
+ - [ ] Make join lobby work
+ - [ ] Make the start game work
 
+- [ ] Game basic
+ - [ ] Basic object rendering
+ - [ ] Camera
+ - [ ] Both players are rendered on screen
+ - [ ] Both players input work and they can see each other move around
+ - [ ] Players can shoot bullets and both players see the bullets
 
+- [ ] Enemies(Enemies is an abstract class that can be extended, for example add stronger units, ranged units etc.)
+ - [ ] Enemies randomly spawn around for all clients
+ - [ ] Enemies can take damage
+ - [ ] Enemies can die
+ - [ ] Enemies move towards players
+ - [ ] Enemies can attack player
 
-## Getting Started
+- [ ] Game loop
+ - [ ] Score
+ - [ ] End screen
+ - [ ] "pause" menu
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+- [ ] Enviorment
+ - [ ] Grid based enviorment
