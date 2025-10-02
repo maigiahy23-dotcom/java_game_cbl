@@ -3,22 +3,22 @@ A tilebased game, where enemies use pathfinding to get to the player, the player
 
 
 ## Todo
-[] - Setup window
-[] - Draw a grid
-[] - Make grid resize when window resizes
-[] - Add obstacles
-[] - Add player with movement
-[] - Add multiplayer
-[] - Add enemy
-[] - Make enemy killable
-[] - Make player killable
-[] - Enemy pathfinding
-[] - Maze generation
-[] - Camera movement
-[] - Score counter
-[] - Main menu
-[] - Pause menu
-[] - End screen
+[ ] - Setup window
+[ ] - Draw a grid
+[ ] - Make grid resize when window resizes
+[ ] - Add obstacles
+[ ] - Add player with movement
+[ ] - Add multiplayer
+[ ] - Add enemy
+[ ] - Make enemy killable
+[ ] - Make player killable
+[ ] - Enemy pathfinding
+[ ] - Maze generation
+[ ] - Camera movement
+[ ] - Score counter
+[ ] - Main menu
+[ ] - Pause menu
+[ ] - End screen
 
 
 
