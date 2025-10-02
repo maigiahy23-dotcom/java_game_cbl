@@ -7,23 +7,21 @@ public class App {
     public static void main(String[] args) throws Exception {
         // Creating instance of JFrame
         JFrame frame = new JFrame();
+        
+        
+        JButton createLobbyButton = new JButton("Create lobby");
+        JButton joinLobbyButton = new JButton("Join lobby");
 
-        // Creating instance of JButton
-        JButton button = new JButton("Button");
-
-        // x axis, y axis, width, height
-        button.setBounds(150, 200, 220, 50);
+        createLobbyButton.setBounds(150, 200, 220, 50);
+        joinLobbyButton.setBounds(150, 260, 220, 50);
 
         // adding button in JFrame
-        frame.add(button);
-
-        // 400 width and 500 height
+        frame.add(createLobbyButton);
+        frame.add(joinLobbyButton);
+        
+        frame.setTitle("Cool game");
         frame.setSize(500, 600);
-
-        // using no layout managers
         frame.setLayout(null);
-
-        // making the frame visible
         frame.setVisible(true);
     }
 }
