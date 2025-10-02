@@ -1,5 +1,5 @@
 ## Game idea
-A tilebased game, where enemies use pathfinding to get to the player, the player can move around in a maze like grid of tiles. Each game has a randomly generated grid. Player has a weapon to shoot, he can only walk in the grid and shoot in 4 directions(The direction player is moving).
+A multiplayer game where players cooperate to kill enemies that come towards them.
 
 ## Advanced topic choices
 ### Networking (current choice)
