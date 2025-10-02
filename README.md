@@ -16,30 +16,30 @@ Explore how enemy pathfinding works
 ## Todo
 - [ ] Setup
     - [ ] Setup window
- - [ ] Add join/create lobby button
- - [ ] Add lobby screen and display all players
- - [ ] Make create lobby work
- - [ ] Make join lobby work
- - [ ] Make the start game work
+    - [ ] Add join/create lobby button
+    - [ ] Add lobby screen and display all players
+    - [ ] Make create lobby work
+    - [ ] Make join lobby work
+    - [ ] Make the start game work
 
 - [ ] Game basic
- - [ ] Basic object rendering
- - [ ] Camera
- - [ ] Both players are rendered on screen
- - [ ] Both players input work and they can see each other move around
- - [ ] Players can shoot bullets and both players see the bullets
+    - [ ] Basic object rendering
+    - [ ] Camera
+    - [ ] Both players are rendered on screen
+    - [ ] Both players input work and they can see each other move around
+    - [ ] Players can shoot bullets and both players see the bullets
 
 - [ ] Enemies(Enemies is an abstract class that can be extended, for example add stronger units, ranged units etc.)
- - [ ] Enemies randomly spawn around for all clients
- - [ ] Enemies can take damage
- - [ ] Enemies can die
- - [ ] Enemies move towards players
- - [ ] Enemies can attack player
+    - [ ] Enemies randomly spawn around for all clients
+    - [ ] Enemies can take damage
+    - [ ] Enemies can die
+    - [ ] Enemies move towards players
+    - [ ] Enemies can attack player
 
 - [ ] Game loop
- - [ ] Score
- - [ ] End screen
- - [ ] "pause" menu
+    - [ ] Score
+    - [ ] End screen
+    - [ ] "pause" menu
 
 - [ ] Enviorment
- - [ ] Grid based enviorment
+    - [ ] Grid based enviorment
