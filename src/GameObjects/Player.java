@@ -1,6 +1,13 @@
-package Engine;
+package GameObjects;
 
-public class StaticNetworkObject extends GameObject {
+import Engine.GameObject;
+
+public class Player extends GameObject {
+
+    @Override
+    public void setup() {
+        loadImage("player", "src\\Assets\\Player.png");
+    }
 
     @Override
     public void onLoad() {
@@ -18,12 +25,6 @@ public class StaticNetworkObject extends GameObject {
     public void update() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public void setup() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setup'");
     }
     
 }

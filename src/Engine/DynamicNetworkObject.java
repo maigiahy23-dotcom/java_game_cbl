@@ -2,11 +2,6 @@ package Engine;
 
 public class DynamicNetworkObject extends GameObject{
 
-    DynamicNetworkObject(float x, float y, float size) {
-        super(x, y, size);
-        //TODO Auto-generated constructor stub
-    }
-
     @Override
     public void onLoad() {
         // TODO Auto-generated method stub
@@ -23,6 +18,12 @@ public class DynamicNetworkObject extends GameObject{
     public void update() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public void setup() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setup'");
     }
     
 }

@@ -5,6 +5,7 @@ import Engine.Networking.Server;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -17,18 +18,26 @@ public class Engine {
     Scene currentScene;
     JFrame jFrame;
     boolean running;
+    static Engine engine;
 
+    public Engine() {
+        engine = this;
+    }
 
     public void setup() {
         jFrame = new JFrame();
         jFrame.setSize(500, 600);
         jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         running = true;
-        jFrame.addWindowListener(new WindowAdapter(){
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
+    }
+
+    public static Scene getCurrentScene() {
+        return engine.currentScene;
+    }
+
+    protected static Engine getEngine() {
+        return engine;
     }
 
     public boolean isRunning() {
@@ -36,18 +45,18 @@ public class Engine {
     }
 
     public void update() {
-
+        currentScene.update();
     }
 
-    public void changeScene(Scene scene) {
-        if (currentScene != null) {
-            jFrame.remove(currentScene.getMainPanel());
+    public static void changeScene(Scene scene) {
+        if (Engine.getCurrentScene() != null) {
+            Engine.getEngine().jFrame.remove(Engine.getCurrentScene().getMainPanel());
         }
         
-        currentScene = scene;
+        Engine.getEngine().currentScene = scene;
         
-        jFrame.add(scene.getUiPanel());
-        jFrame.validate();
+        Engine.getEngine().jFrame.add(scene.getMainPanel());
+        Engine.getEngine().jFrame.validate();
     }
 
     /**

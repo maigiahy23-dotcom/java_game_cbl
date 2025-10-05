@@ -4,13 +4,14 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import Engine.Engine;
 import Engine.Scene;
+import GameObjects.Player;
 
 public class LobbyScene extends Scene {
     
     @Override
     public void setupScene() {
-        JPanel uiPanel = getUiPanel();
 
         JButton createLobbyButton = new JButton("Create lobby");
         JButton joinLobbyButton = new JButton("Join lobby");
@@ -23,6 +24,7 @@ public class LobbyScene extends Scene {
         createLobbyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Engine.changeScene(new CreateLobbyScene());
             }
         });
 
@@ -38,9 +40,11 @@ public class LobbyScene extends Scene {
             }
         });
 
-        uiPanel.add(textField);
-        uiPanel.add(joinLobbyButton);
-        uiPanel.add(createLobbyButton);
+        add(textField);
+        add(joinLobbyButton);
+        add(createLobbyButton);
+
+        addObject(new Player());
     }
     
 }
