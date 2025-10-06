@@ -1,217 +1,130 @@
-# Co‑op Grid Shooter (Java + Swing)
+Got it — here’s a single, copy-ready **README.md** in plain Markdown. Just copy everything inside the block to your GitHub README:
 
-A tiny **multiplayer co‑op** game where 2 players join the same grid world, **see each other**, and **fight enemies** that move toward them. Built with **Java + Swing** to focus on fundamentals (rendering, input, simple networking).
+````markdown
+# Co-op Grid Shooter (Java · Swing · Gradle)
 
----
+A tiny **multiplayer co-op** prototype: two players join the same grid world and **see each other move in real time**. The project focuses on the fundamentals: Swing rendering, input handling, and simple TCP networking.
 
-## Key Goals
-
-* **Networking (current focus):** Two players join one session and see each other’s position & actions.
-* **Build tools (learning):** Understand options (plain `javac`, Gradle/Maven), how they work, and trade‑offs.
-* **Extendable enemies:** Start with a base `Enemy` class; add variants later (stronger, ranged…).
-
----
-
-## Features (MVP)
-
-* Top‑down 2D grid world (simple camera).
-* Local rendering with Swing (`JPanel` + `paintComponent`).
-* Two players in one lobby:
-
-  * Both players are rendered.
-  * Both players’ **input** & **movement** are synchronized.
-  * Players can **shoot**; bullets show up for both clients.
-* Basic enemies:
-
-  * Spawn around the map (same for all clients).
-  * Move toward players.
-  * Take damage and die.
-
-> After MVP, add polish (HUD, sounds, different enemy types).
+## Highlights
+- **Java 17 + Swing** with a clean `Engine → Scene → Sprite` architecture.
+- **Host-authoritative TCP** networking (line-based messages).
+- **Gradle** project (wrapper ready), clear packages, minimal protocol.
 
 ---
 
-## Controls
-
-* **Move:** Arrow keys or WASD
-* **Shoot:** Space
-* **Pause/Back:** Esc *(planned)*
+## Requirements
+- Java **17+**
+- Gradle **Wrapper** (`./gradlew` / `gradlew.bat`) included
 
 ---
 
-## Project Structure (planned/actual)
+## Quick Start
+
+**macOS / Linux**
+```bash
+./gradlew run
+````
+
+**Windows**
+
+```powershell
+gradlew.bat run
+```
+
+> Tip: launch a second instance to test two players on the same PC.
+
+---
+
+## How to Play (MVP)
+
+1. In the first window click **Create Lobby (Host)** (default port **7777**).
+2. In the second window click **Join Lobby**:
+
+   * Same PC: `127.0.0.1 : 7777`
+   * LAN: host’s local IP (e.g., `192.168.x.x : 7777`)
+3. You’ll see your **Player** (filled) and the other’s **PlayerGhost** (outline) moving.
+
+**Controls:** WASD / Arrow keys to move.
+
+---
+
+## Project Structure
 
 ```
 src/
-  App.java                   // entry point
-  Engine/
-    Engine.java              // window & scene management
-    Scene.java               // a screen/panel with update & render
-    GameObject.java          // base object with position & draw()
-    (Networking helpers...)  // optional: serialization, queues
-  Scenes/
-    LobbyScene.java          // create/join lobby UI
-    CreateLobbyScene.java    // host lobby UI
-    GameplayScene.java       // main game (players, enemies, bullets)
-  GameObjects/
-    Player.java              // local player sprite
-    PlayerGhost.java         // remote player representation
-    Bullet.java
-    Enemy.java               // abstract class
-    EnemyBasic.java          // simple chaser
-  Networking/
-    Server.java              // host‑authoritative (TCP for MVP)
-    Client.java              // client connection + inbox queue
-Assets/
-  Player.png
-README.md
+  main/
+    java/
+      com/cbl/game/
+        app/        App.java                      # entry point
+        config/     GameConfig.java               # FPS, port, sync rate
+        core/       Engine.java, Scene.java, Sprite.java
+        core/input/ InputManager.java
+        core/math/  Vec2.java
+        net/        MessageType.java, NetMessage.java,
+                    NetClient.java, NetServer.java
+        game/
+          objects/  Player.java, PlayerGhost.java
+          scenes/   LobbyScene.java, GameplayScene.java
+    resources/      # put assets here later
+.github/workflows/java-ci.yml
+build.gradle.kts · settings.gradle.kts · .gitignore
 ```
 
 ---
 
-## How It Works (High Level)
+## Networking (Quick Spec)
 
-### Rendering & Scenes
+* **Topology:** host-authoritative TCP server; clients send state; server broadcasts.
+* **Wire format:** one line per message → `TYPE|arg1|arg2|...`
 
-* `Engine` owns the main window (`JFrame`) and the **current `Scene`**.
-* Each `Scene` is a `JPanel`:
+  * `WELCOME|id`
+  * `JOIN|name` → server may broadcast `JOINED|id|name`
+  * `POS|id|x|y`
+  * `LEAVE|id`
+* **Position send rate:** ~**15 Hz** (`GameConfig.SEND_POS_HZ`)
+* **Default port:** **7777/TCP** (`GameConfig.DEFAULT_PORT`)
 
-  * Holds a list of `GameObject`s (player, enemies, bullets…).
-  * `update()` → game logic; `repaint()` → `paintComponent()` draws objects.
-
-### Input
-
-* `Scene` adds a `KeyListener` and tracks pressed keys.
-* `Player` updates position/velocity based on key states.
-
-### Networking (simple & robust for MVP)
-
-* **Topology:** Host‑authoritative TCP server.
-* **Messages:** Text lines (e.g., `JOIN|name`, `POS|id|x|y`, `SHOT|id|x|y|vx|vy`).
-* **Server:**
-
-  * Receives updates from clients.
-  * Broadcasts state to all clients.
-  * Keeps a `Map<playerId, position>`.
-* **Client:**
-
-  * Sends local state (position, shots) at a fixed rate.
-  * Reads server messages on a background thread → pushes into a thread‑safe inbox → `Scene.update()` consumes and updates `PlayerGhost`s, bullets, etc.
-
-> Later upgrades: UDP for smoother movement, lerp/prediction, sequence numbers.
+> For LAN/Internet play, allow TCP/7777 in the firewall; for Internet, configure router **port forwarding** to the host PC.
 
 ---
 
-## Build & Run
+## Build / Package
 
-### Gradle (recommended as the project grows)
-
-1. Initialize once:
+Create a runnable JAR:
 
 ```bash
-gradle init --type java-application
+./gradlew jar
+java -jar build/libs/*.jar
 ```
 
-2. Move sources under `app/src/main/java` or adjust Gradle `sourceSets`.
-3. Run:
-
-```bash
-gradle run
-```
-
-> Java 17+ recommended.
-
 ---
 
-## Configuration
+## Roadmap (Next Steps)
 
-* **Default port:** `7777` (TCP).
-* **Local test:** Run `Server` on your machine, then start two clients pointing to `127.0.0.1:7777`.
-* **LAN:** Client connects to host machine’s LAN IP (e.g., `192.168.1.50:7777`).
-* **Internet:** Requires **port forwarding** on the host’s router (forward TCP/7777 to the host PC).
-
----
-
-## Roadmap / Todo (with acceptance criteria)
-
-### Setup
-
-* [ ] **Setup window**
-  *AC:* Opens a `JFrame` with fixed size; closes cleanly.
-* [ ] **Add join/create lobby button**
-  *AC:* Lobby scene shows two buttons; clickable; keyboard focus retained for input.
-* [ ] **Add lobby screen and display all players**
-  *AC:* Shows a list of joined players’ names/IDs; updates on join/leave.
-* [ ] **Make create lobby work**
-  *AC:* Clicking “Create” starts `Server` at configured port, shows lobby info (IP/port).
-* [ ] **Make join lobby work**
-  *AC:* Client can enter IP/port; connects; receives `WELCOME`/`YOU` messages.
-* [ ] **Make the start game work**
-  *AC:* Host can start; both navigate to `GameplayScene` with same seed/state.
-
-### Game basics
-
-* [ ] **Basic object rendering**
-  *AC:* Player sprite draws at `(x,y)`; no exceptions thrown.
-* [ ] **Camera**
-  *AC:* World scrolls or clamps; player remains visible; no jitter.
-* [ ] **Both players are rendered on screen**
-  *AC:* Local `Player` + remote `PlayerGhost` visible with distinct colors/labels.
-* [ ] **Both players input work and they can see each other move around**
-  *AC:* Movement sync at 10–20 Hz; ≤200 ms visible delay; no desync on reconnect.
-* [ ] **Players can shoot bullets and both players see the bullets**
-  *AC:* Press Space spawns bullet on both clients; bullets despawn off‑screen or on hit.
-
-### Enemies (`Enemy` is abstract; add variants later)
-
-* [ ] **Enemies randomly spawn around for all clients**
-  *AC:* Server sends spawn msgs; all clients see the same enemies with the same IDs.
-* [ ] **Enemies can take damage**
-  *AC:* Bullet–enemy collision reduces HP; server authoritatively resolves.
-* [ ] **Enemies can die**
-  *AC:* On 0 HP, server announces death; all clients remove the enemy.
-* [ ] **Enemies move towards players**
-  *AC:* Basic chase behavior; tick‑based position updates; smooth on clients.
-* [ ] **Enemies can attack player**
-  *AC:* On contact or within range, player loses HP; shared defeat/victory rules.
-
----
-
-## Build Tools — What We’ll Learn
-
-* **Plain `javac`:** fastest to start; good to grasp fundamentals.
-* **Gradle:** dependency management, tasks, run/debug, packaging.
-* **Maven:** similar goals; XML‑driven; widely used in enterprise.
-* **Why it matters:** reproducible builds, easier CI, modularization as the project grows.
-
----
-
-## Contributing (Team Workflow)
-
-1. Create a feature branch (e.g., `feature/network-pos`, `feature/enemy-basic`).
-2. Keep PRs small and focused (≤ 300 lines if possible).
-3. Add simple test scene/manual steps in the PR description.
-4. Code style: small classes, clear names, no unchecked exceptions in the game loop.
-5. Review: one teammate approves before merge.
+* Sync **bullets** (`SHOT|...`) so both clients see them.
+* Server-driven **enemy spawns**, damage, and death events.
+* Basic **HUD** and **win/lose** conditions (e.g., survive 30s).
 
 ---
 
 ## Troubleshooting
 
-* **Nothing moves:** Ensure the `Scene` grabs focus (`setFocusable(true)`, `requestFocusInWindow()`).
-* **High CPU or UI freeze:** Use `javax.swing.Timer` (≈16 ms) or a background thread; never block the EDT.
-* **`Address already in use`:** Port already bound — change port or stop the leftover process.
-* **Can’t connect over LAN:** Check firewall; verify host IP with `ipconfig/ifconfig`.
-* **Sprites not loading:** Use classpath resources (`getResource("/Assets/Player.png")`) instead of OS‑specific paths.
+* **No input:** click the game window to focus.
+* **`Address already in use`:** another instance is using the port → close the old one or change port.
+* **Cannot connect on LAN:** use host’s **LAN IP** (not public IP) and allow TCP/7777 in the firewall.
+
+---
+
+## Contributing
+
+Use feature branches (`feature/network-pos`, `feature/enemy-basic`, …), keep PRs small, keep CI green. Prefer private fields + semantic methods over public setters.
 
 ---
 
 ## License
 
-Choose one (MIT recommended for learning projects). Add a `LICENSE` file at repo root.
+Add your preferred license (e.g., **MIT**) in a `LICENSE` file.
 
----
-
-## Credits
-
-Built by your team as a study project on game loops, rendering, and networking with Java + Swing.
+```
+::contentReference[oaicite:0]{index=0}
+```
