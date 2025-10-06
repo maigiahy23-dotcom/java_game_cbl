@@ -104,26 +104,7 @@ README.md
 
 ## Build & Run
 
-### Option A — Quick compile with `javac`
-
-**Linux/macOS**
-
-```bash
-# from repo root
-find src -name "*.java" > sources.txt
-javac -d out @sources.txt
-java -cp out App
-```
-
-**Windows (PowerShell)**
-
-```powershell
-Get-ChildItem -Recurse src -Filter *.java | ForEach-Object FullName > sources.txt
-javac -d out @sources.txt
-java -cp out App
-```
-
-### Option B — Gradle (recommended as the project grows)
+### Gradle (recommended as the project grows)
 
 1. Initialize once:
 
