@@ -1,4 +1,4 @@
-````markdown
+
 # Co-op Grid Shooter (Java · Swing · Gradle)
 
 A tiny **multiplayer co-op** prototype where two players join the same grid world and **see each other move in real time**. The project focuses on fundamentals: Swing rendering, input handling, and a simple **host-authoritative TCP** networking model. Built with **Java 17+** and **Gradle**.
